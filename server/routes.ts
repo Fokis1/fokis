@@ -14,7 +14,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Articles routes
   app.get("/api/articles", async (req, res) => {
     try {
-      const language = req.query.language as string || "ht"; // Default to Haitian Creole
+      const language = req.query.language as string;
       const category = req.query.category as string;
       const articles = await storage.getAllArticles(language, category);
       res.json(articles);
@@ -47,8 +47,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Polls routes
   app.get("/api/polls", async (req, res) => {
     try {
-      const language = req.query.language as string || "ht"; // Default to Haitian Creole
-      const polls = await storage.getAllPolls(language);
+      const language = req.query.language as string || undefined;
+      const polls = await storage.getAllPolls(language || "ht");
       res.json(polls);
     } catch (error) {
       res.status(500).json({ message: "Error fetching polls" });
@@ -96,8 +96,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Videos routes
   app.get("/api/videos", async (req, res) => {
     try {
-      const language = req.query.language as string || "ht"; // Default to Haitian Creole
-      const videos = await storage.getAllVideos(language);
+      const language = req.query.language as string || undefined;
+      const videos = await storage.getAllVideos(language || "ht");
       res.json(videos);
     } catch (error) {
       res.status(500).json({ message: "Error fetching videos" });
@@ -107,9 +107,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Stats routes
   app.get("/api/stats/popular-articles", async (req, res) => {
     try {
-      const language = req.query.language as string || "ht"; // Default to Haitian Creole
+      const language = req.query.language as string || undefined;
       const limit = parseInt(req.query.limit as string) || 5;
-      const articles = await storage.getMostViewedArticles(language, limit);
+      const articles = await storage.getMostViewedArticles(language || "ht", limit);
       res.json(articles);
     } catch (error) {
       res.status(500).json({ message: "Error fetching popular articles" });
@@ -118,8 +118,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get("/api/stats/categories", async (req, res) => {
     try {
-      const language = req.query.language as string || "ht"; // Default to Haitian Creole
-      const categories = await storage.getPopularCategories(language);
+      const language = req.query.language as string || undefined;
+      const categories = await storage.getPopularCategories(language || "ht");
       res.json(categories);
     } catch (error) {
       res.status(500).json({ message: "Error fetching category stats" });
