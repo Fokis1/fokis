@@ -75,6 +75,66 @@ export class MemStorage implements IStorage {
       password: "admin123", // Simple password for development
       isAdmin: true
     });
+    
+    // Add sample articles for testing
+    this.createArticle({
+      title: "Nouvèl sou Ekonomi Ayiti",
+      content: "Ayiti ap fè anpil pwogrè nan domèn ekonomik la, malgre defi yo...",
+      excerpt: "Ekonomi peyi a ap bouje dousman men li gen anpil potansyèl",
+      category: "Economy",
+      author: "Jean Baptiste",
+      language: "ht",
+      coverImage: "https://example.com/images/economy-haiti.jpg"
+    });
+    
+    this.createArticle({
+      title: "Kriz Politik la kontinye",
+      content: "Kriz politik la nan peyi Ayiti kontinye avèk manifestasyon...",
+      excerpt: "Manifestasyon yo kontinye nan tout peyi a",
+      category: "Politics",
+      author: "Marie Claire",
+      language: "ht",
+      coverImage: "https://example.com/images/haiti-politics.jpg"
+    });
+    
+    this.createArticle({
+      title: "Haiti's Economic Outlook",
+      content: "The economic outlook for Haiti shows signs of improvement despite challenges...",
+      excerpt: "Haiti's economy is slowly recovering",
+      category: "Economy",
+      author: "Robert Smith",
+      language: "en",
+      coverImage: "https://example.com/images/haiti-economy-en.jpg"
+    });
+    
+    this.createArticle({
+      title: "La situation politique en Haïti",
+      content: "La situation politique en Haïti reste tendue après les récents événements...",
+      excerpt: "Les tensions politiques continuent en Haïti",
+      category: "Politics",
+      author: "Philippe Dupont",
+      language: "fr",
+      coverImage: "https://example.com/images/haiti-politics-fr.jpg"
+    });
+    
+    // Add sample poll
+    this.createPoll({
+      question: "Ki domèn ou panse ki bezwen plis envèstisman an Ayiti?",
+      options: ["Edikasyon", "Sante", "Enfrastrikti", "Agrikilti", "Sekirite"],
+      language: "ht",
+      active: true
+    });
+    
+    // Add sample video
+    this.createVideo({
+      title: "Ayiti: Pwogrè nan domèn agrikilti",
+      description: "Video sou jan agrikilti a ap devlope an Ayiti",
+      videoUrl: "https://example.com/videos/haiti-agriculture.mp4",
+      thumbnailUrl: "https://example.com/images/agriculture-thumbnail.jpg",
+      language: "ht",
+      category: "Agriculture",
+      author: "Pierre Louis"
+    });
   }
 
   // User methods
