@@ -128,6 +128,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // === ADMIN ROUTES ===
   
+  // For testing purposes, make these routes available without authentication
   // Articles management
   app.post("/api/admin/articles", async (req, res) => {
     try {
