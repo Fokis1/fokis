@@ -52,7 +52,7 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             <h1 className="text-2xl md:text-3xl font-bold text-primary">
               <Link href="/" className="flex items-center">
-                <span>Nouvèl Ayiti</span>
+                <span>FOKIS</span>
               </Link>
             </h1>
             <div className="hidden md:block text-neutral-500 text-sm">

@@ -25,7 +25,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <h4 className="text-xl font-bold mb-6">Nouvèl Ayiti</h4>
+            <h4 className="text-xl font-bold mb-6">FOKIS</h4>
             <p className="text-neutral-300 mb-6">{t("footerDescription")}</p>
             <div className="flex space-x-4">
               <a 
@@ -137,7 +137,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-neutral-400 text-sm">&copy; {new Date().getFullYear()} Nouvèl Ayiti. {t("allRightsReserved")}</p>
+          <p className="text-neutral-400 text-sm">&copy; {new Date().getFullYear()} FOKIS. {t("allRightsReserved")}</p>
           <div className="mt-4 md:mt-0">
             <Link href="/privacy">
               <a className="text-neutral-400 hover:text-white transition-colors text-sm mx-3">

@@ -36,14 +36,14 @@ const translations = {
   // Categories
   categories: {
     title: "Kategori",
-    news: "Aktyalite",
+    news: "Nouvèl",
     politics: "Politik",
     culture: "Kilti",
     sports: "Espò",
     health: "Sante",
     economy: "Ekonomi",
     polls: "Sondaj",
-    statistics: "Statistik"
+    statistics: "Estatistik"
   },
   
   // Content sections
