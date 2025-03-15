@@ -21,6 +21,8 @@ const translations = {
   back: "Retounen",
   menu: "Meni",
   search: "Chèche",
+  clearFilters: "Efase Filtè yo",
+  readMore: "Li plis",
   
   // Authentication
   username: "Non itilizatè",
@@ -42,8 +44,56 @@ const translations = {
     sports: "Espò",
     health: "Sante",
     economy: "Ekonomi",
+    technology: "Teknoloji",
+    education: "Edikasyon",
+    environment: "Anviwònman",
+    agriculture: "Agrikilti",
+    business: "Biznis",
+    diaspora: "Dyaspora",
+    international: "Entènasyonal",
+    entertainment: "Divètisman",
+    blog: "Blog",
     polls: "Sondaj",
     statistics: "Estatistik"
+  },
+  
+  // Subcategories
+  subcategories: {
+    // Politics
+    government: "Gouvènman",
+    elections: "Eleksyon",
+    parliament: "Palman",
+    diplomacy: "Diplomasi",
+    
+    // Economy
+    markets: "Mache",
+    finance: "Finans",
+    jobs: "Travay",
+    trade: "Komès",
+    
+    // Sports
+    football: "Foutbòl",
+    basketball: "Baskètbòl",
+    olympics: "Jwèt Olenpik",
+    athletics: "Atletis",
+    
+    // Health
+    medicine: "Medsin",
+    wellness: "Byennèt",
+    hospitals: "Lopital",
+    diseases: "Maladi",
+    
+    // Culture
+    music: "Mizik",
+    art: "Atis",
+    literature: "Literati",
+    traditions: "Tradisyon",
+    
+    // Technology
+    internet: "Entènèt",
+    mobile: "Mobil",
+    innovation: "Inovasyon",
+    software: "Lojisyèl"
   },
   
   // Content sections
@@ -57,6 +107,9 @@ const translations = {
   seeAll: "Wè tout",
   moreNews: "Plis Nouvèl",
   loadMore: "Chaje Plis",
+  exploreSubcategories: "Eksplore Sou-kategori yo",
+  inCategory: "Nan kategori {{category}}",
+  backToCategory: "Retounen nan {{category}}",
   
   // Article related
   publishedOn: "Pibliye",
@@ -86,7 +139,7 @@ const translations = {
   noPollsActive: "Pa gen sondaj aktif pou kounye a",
   
   // Admin
-  adminTitle: "Administrasyon Nouvèl Ayiti",
+  adminTitle: "Administrasyon FOKIS",
   dashboard: "Tablo Kontwòl",
   articlesManagement: "Jesyon Atik yo",
   pollsManagement: "Jesyon Sondaj yo",
@@ -100,7 +153,7 @@ const translations = {
   activeStatus: "Estati aktif",
   active: "Aktif",
   inactive: "Inaktif",
-  adminWelcome: "Byenveni nan pano administrasyon Nouvèl Ayiti",
+  adminWelcome: "Byenveni nan pano administrasyon FOKIS",
   adminInstructions: "Itilize meni a agoch pou navige nan diferan seksyon yo",
   
   // Stats
@@ -115,6 +168,7 @@ const translations = {
   noArticlesFound: "Pa gen atik ki disponib",
   noVideosYet: "Pa gen videyo ki disponib",
   noCategoryArticles: "Pa gen atik nan kategori sa a",
+  noSubcategoryArticles: "Pa gen atik nan sou-kategori {{subcategory}} pou kounye a. Eseye gade lòt kontni nan {{category}}.",
   noStatsYet: "Pa gen estatistik ki disponib",
   noCategoryStats: "Pa gen kategori popilè pou montre",
   articleNotFound: "Atik la pa jwenn",

@@ -9,9 +9,12 @@ import { ProtectedRoute } from "@/lib/protected-route";
 import HomePage from "@/pages/home-page";
 import ArticlePage from "@/pages/article-page";
 import CategoryPage from "@/pages/category-page";
+import BlogPage from "@/pages/blog-page";
 import AuthPage from "@/pages/auth-page";
-import AdminPage from "@/pages/admin/admin-page";
 import NotFound from "@/pages/not-found";
+
+// Admin Pages
+import AdminPage from "@/pages/admin/admin-page";
 import ArticlesManagement from "@/pages/admin/articles-management";
 import CreateArticle from "@/pages/admin/create-article";
 import EditArticle from "@/pages/admin/edit-article";
@@ -24,9 +27,11 @@ function Router() {
       <Route path="/" component={HomePage} />
       <Route path="/article/:id" component={ArticlePage} />
       <Route path="/category/:category" component={CategoryPage} />
+      <Route path="/category/:category/:subcategory" component={CategoryPage} />
+      <Route path="/blog" component={BlogPage} />
       <Route path="/auth" component={AuthPage} />
       
-      {/* Admin Routes */}
+      {/* Admin Routes - completely isolated from main site navigation */}
       <Route path="/admin">
         <ProtectedRoute adminOnly path="/admin" component={AdminPage} />
       </Route>
