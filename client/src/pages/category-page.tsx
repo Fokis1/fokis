@@ -32,64 +32,64 @@ export default function CategoryPage() {
   const getCategoryData = () => {
     // This should match your header categories structure
     const categories = [
-      { id: "news", label: t("categories.news") },
+      { id: "news", label: "Nouvèl" },
       { 
         id: "politics", 
-        label: t("categories.politics"),
+        label: "Politik",
         subcategories: [
-          { id: "government", label: t("subcategories.government") },
-          { id: "elections", label: t("subcategories.elections") },
-          { id: "parliament", label: t("subcategories.parliament") },
-          { id: "diplomacy", label: t("subcategories.diplomacy") }
+          { id: "government", label: "Gouvènman" },
+          { id: "elections", label: "Eleksyon" },
+          { id: "parliament", label: "Palman" },
+          { id: "diplomacy", label: "Diplomasi" }
         ]
       },
       { 
         id: "economy", 
-        label: t("categories.economy"),
+        label: "Ekonomi",
         subcategories: [
-          { id: "markets", label: t("subcategories.markets") },
-          { id: "finance", label: t("subcategories.finance") },
-          { id: "jobs", label: t("subcategories.jobs") },
-          { id: "trade", label: t("subcategories.trade") }
+          { id: "markets", label: "Mache" },
+          { id: "finance", label: "Finans" },
+          { id: "jobs", label: "Travay" },
+          { id: "trade", label: "Komès" }
         ]
       },
       { 
         id: "sports", 
-        label: t("categories.sports"),
+        label: "Espò",
         subcategories: [
-          { id: "football", label: t("subcategories.football") },
-          { id: "basketball", label: t("subcategories.basketball") },
-          { id: "olympics", label: t("subcategories.olympics") },
-          { id: "athletics", label: t("subcategories.athletics") }
+          { id: "football", label: "Foutbòl" },
+          { id: "basketball", label: "Baskètbòl" },
+          { id: "olympics", label: "Olenpik" },
+          { id: "athletics", label: "Atletis" }
         ]
       },
       { 
         id: "health", 
-        label: t("categories.health"),
+        label: "Sante",
         subcategories: [
-          { id: "medicine", label: t("subcategories.medicine") },
-          { id: "wellness", label: t("subcategories.wellness") },
-          { id: "hospitals", label: t("subcategories.hospitals") },
-          { id: "diseases", label: t("subcategories.diseases") }
+          { id: "medicine", label: "Medsin" },
+          { id: "wellness", label: "Byennèt" },
+          { id: "hospitals", label: "Lopital" },
+          { id: "diseases", label: "Maladi" }
         ]
       },
       { 
         id: "culture", 
-        label: t("categories.culture"),
+        label: "Kilti",
         subcategories: [
-          { id: "music", label: t("subcategories.music") },
-          { id: "art", label: t("subcategories.art") },
-          { id: "literature", label: t("subcategories.literature") },
-          { id: "traditions", label: t("subcategories.traditions") }
+          { id: "music", label: "Mizik" },
+          { id: "art", label: "La" },
+          { id: "literature", label: "Literati" },
+          { id: "traditions", label: "Tradisyon" }
         ]
       },
-      { id: "technology", label: t("categories.technology") },
-      { id: "education", label: t("categories.education") },
-      { id: "environment", label: t("categories.environment") },
-      { id: "agriculture", label: t("categories.agriculture") },
-      { id: "diaspora", label: t("categories.diaspora") },
-      { id: "blog", label: t("categories.blog") },
-      { id: "polls", label: t("categories.polls") }
+      { id: "technology", label: "Teknoloji" },
+      { id: "education", label: "Edikasyon" },
+      { id: "environment", label: "Anviwònman" },
+      { id: "agriculture", label: "Agrikilti" },
+      { id: "diaspora", label: "Dyaspora" },
+      { id: "blog", label: "Blog" },
+      { id: "polls", label: "Sondaj" }
     ];
     
     const categoryData = categories.find(c => c.id === category);

@@ -32,10 +32,10 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   
   const categories = [
-    { id: "news", label: t("categories.news"), icon: <Calendar className="h-4 w-4" /> },
+    { id: "news", label: "Nouvèl", icon: <Calendar className="h-4 w-4" /> },
     { 
       id: "politics", 
-      label: t("categories.politics"), 
+      label: "Politik", 
       icon: <ChevronRight className="h-4 w-4" />,
       subcategories: [
         { id: "government", label: t("subcategories.government") },
@@ -46,7 +46,7 @@ export default function Header() {
     },
     { 
       id: "economy", 
-      label: t("categories.economy"), 
+      label: "Ekonomi", 
       icon: <ChevronRight className="h-4 w-4" />,
       subcategories: [
         { id: "markets", label: t("subcategories.markets") },
@@ -57,7 +57,7 @@ export default function Header() {
     },
     { 
       id: "sports", 
-      label: t("categories.sports"), 
+      label: "Espò", 
       icon: <ChevronRight className="h-4 w-4" />,
       subcategories: [
         { id: "football", label: t("subcategories.football") },
@@ -68,7 +68,7 @@ export default function Header() {
     },
     { 
       id: "health", 
-      label: t("categories.health"), 
+      label: "Sante", 
       icon: <ChevronRight className="h-4 w-4" />,
       subcategories: [
         { id: "medicine", label: t("subcategories.medicine") },
@@ -79,7 +79,7 @@ export default function Header() {
     },
     { 
       id: "culture", 
-      label: t("categories.culture"), 
+      label: "Kilti", 
       icon: <ChevronRight className="h-4 w-4" />,
       subcategories: [
         { id: "music", label: t("subcategories.music") },
@@ -88,13 +88,13 @@ export default function Header() {
         { id: "traditions", label: t("subcategories.traditions") }
       ]
     },
-    { id: "technology", label: t("categories.technology"), icon: <ChevronRight className="h-4 w-4" /> },
-    { id: "education", label: t("categories.education") },
-    { id: "environment", label: t("categories.environment") },
-    { id: "agriculture", label: t("categories.agriculture") },
-    { id: "diaspora", label: t("categories.diaspora") },
-    { id: "blog", label: t("categories.blog") },
-    { id: "polls", label: t("categories.polls") }
+    { id: "technology", label: "Teknoloji", icon: <ChevronRight className="h-4 w-4" /> },
+    { id: "education", label: "Edikasyon" },
+    { id: "environment", label: "Anviwònman" },
+    { id: "agriculture", label: "Agrikilti" },
+    { id: "diaspora", label: "Dyaspora" },
+    { id: "blog", label: "Blog" },
+    { id: "polls", label: "Sondaj" }
   ];
   
   const languages = [
