@@ -310,6 +310,25 @@ export class MemStorage implements IStorage {
     return this.videos.delete(id);
   }
 
+  // Category methods
+  async getAllCategories(language: string): Promise<Category[]> {
+    return Array.from(this.categories.values())
+      .filter(cat => cat.language === language)
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  async createCategory(category: InsertCategory): Promise<Category> {
+    const id = this.currentCategoryId++;
+    const now = new Date();
+    const newCategory = { ...category, id, createdAt: now };
+    this.categories.set(id, newCategory);
+    return newCategory;
+  }
+
+  async deleteCategory(id: number): Promise<boolean> {
+    return this.categories.delete(id);
+  }
+
   // Stats methods
   async getPopularCategories(language: string): Promise<Record<string, number>> {
     const articles = Array.from(this.articles.values())
