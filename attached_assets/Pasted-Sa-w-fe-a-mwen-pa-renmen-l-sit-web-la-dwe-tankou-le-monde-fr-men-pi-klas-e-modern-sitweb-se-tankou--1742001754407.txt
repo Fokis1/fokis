@@ -1,0 +1,28 @@
+Sa w fe a mwen pa renmen l sit web la dwe tankou le monde.fr men pi klas e modern  sitweb se tankou yon yon blog ki pral kouvri tout aktivite ak nouvèl ki gen rapò ak Ayiti. Sitweb la dwe genyen karakteristik sa yo:
+1.	Entèfas pou itilizatè:
+o	Yon entèfas senp, modèn, ak responsive (ki adapte pou telefòn, tablèt, ak òdinatè).
+o	Li dwe gen yon meni ki fasil pou navige, ki pèmèt moun yo jwenn nouvèl, sondaj, aktyalite, ak lòt kontni fasilman.
+o	Sitweb la dwe disponib an 3 lang: Kreyòl, Fransè, ak Anglè. Moun yo ta dwe kapab chanje lang nan yon sèl klike.
+2.	Fonksyonalite:
+o	Moun pa bezwen kreye yon kont pou yo moute sou sitweb la
+o	Men lap Yon seksyon admin kote moun ki otorize yo ka ajoute nouvo atik, modifye kontni, men pou n antre sou li fok moun nan konekte.
+o	Yon seksyon aktualite kote tout nouvèl yo parèt, ki klase pa kategori (aktyalite, politik, kilti, espò, sante, elatriye, ).
+o	Yon seksyon sondaj kote moun yo ka vote sou sijè aktyèl.
+o	Yon seksyon statistik pou montre ki atik ki pi popilè, ki sijè ki gen plis entèaksyon, elatriye.
+3.	Eksperyans itilizatè:
+o	Sitweb la dwe rapid ak fasil pou navige, kit moun yo ap itilize yon telefòn, yon tablèt, oswa yon òdinatè.
+o	Li dwe gen yon aparans pwofesyonèl ak yon konsepsyon ki pral atire granmoun ak timoun.
+o	Li dwe enstriktif, ki vle di li dwe bay moun yo enfòmasyon ki klè ak detaye sou chak sijè.
+4.	Sekirite:
+o	Sitweb la dwe gen yon sistèm sekirite solid pou pwoteje  kontni admin yo.
+o	Sèlman itilizatè otorize yo ta dwe kapab aksede seksyon admin yo.
+5.	Kontni:
+o	Sitweb la dwe kapab pibliye tout kalite kontni: atik, videyo, imaj, enfografik, elatriye.
+o	Li dwe gen yon sistèm ki pèmèt moun yo swiv kontni ki enterese yo (pa egzanp, abònman pou nouvèl oswa notifikasyon).
+6.	Entegrasyon ak lòt zouti:
+o	Li dwe gen yon sistèm pou entegre ak rezo sosyal (Facebook, Twitter, Instagram) pou pataje kontni fasilman.
+o	Li dwe gen yon sistèm pou jere anons (si ou vle mete piblisite sou sitweb la).
+7.	Objektif:
+o	Sitweb la dwe yon zouti pou ede moun yo vin pi okouran de sa k ap pase nan peyi a, kit sa ki bon, kit sa ki mal.
+o	Li dwe yon platfòm kote moun yo ka aprann nouvo bagay, patisipe nan diskisyon, epi jwenn enfòmasyon ki enpòtan pou yo.
+
