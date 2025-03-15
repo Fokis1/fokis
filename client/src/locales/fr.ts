@@ -1,0 +1,147 @@
+// French translations
+const translations = {
+  // General
+  home: "Accueil",
+  login: "Connexion",
+  register: "S'inscrire",
+  adminLogin: "Admin Connexion",
+  adminDashboard: "Tableau de Bord Admin",
+  logout: "Déconnexion",
+  loggingIn: "Connexion en cours...",
+  registering: "Inscription en cours...",
+  save: "Enregistrer",
+  cancel: "Annuler",
+  delete: "Supprimer",
+  edit: "Modifier",
+  create: "Créer",
+  view: "Voir",
+  loading: "Chargement...",
+  success: "Succès",
+  error: "Erreur",
+  back: "Retour",
+  menu: "Menu",
+  search: "Rechercher",
+  
+  // Authentication
+  username: "Nom d'utilisateur",
+  password: "Mot de passe",
+  confirmPassword: "Confirmer le mot de passe",
+  loginDescription: "Connectez-vous à votre compte pour gérer les articles",
+  registerDescription: "Créez un compte pour participer à la plateforme",
+  welcomeMessage: "Une plateforme d'information axée sur Haïti. Nous fournissons des nouvelles immédiates, objectives et complètes sur l'actualité locale et mondiale.",
+  featureMultilingual: "Disponible en trois langues: Créole, Français et Anglais",
+  featureLatestNews: "Toutes les dernières nouvelles et actualités sur Haïti",
+  featureEngagement: "Sondages et opportunités de participation",
+  
+  // Categories
+  categories: {
+    title: "Catégories",
+    news: "Actualités",
+    politics: "Politique",
+    culture: "Culture",
+    sports: "Sports",
+    health: "Santé",
+    economy: "Économie",
+    polls: "Sondages",
+    statistics: "Statistiques"
+  },
+  
+  // Content sections
+  recentNews: "Dernières Nouvelles",
+  videos: "Vidéos",
+  poll: "Sondage",
+  statistics: "Statistiques",
+  mostPopularArticles: "Articles les plus populaires",
+  mostPopularCategories: "Catégories les plus populaires",
+  followUs: "Suivez-nous",
+  seeAll: "Voir tout",
+  moreNews: "Plus de Nouvelles",
+  loadMore: "Charger Plus",
+  
+  // Article related
+  publishedOn: "Publié le",
+  author: "Auteur",
+  shareArticle: "Partager cet article",
+  copyLink: "Copier le lien",
+  linkCopied: "Lien copié",
+  linkCopiedMessage: "Le lien de l'article a été copié dans votre presse-papiers",
+  comments: "Commentaires",
+  views: "Vues",
+  publishDate: "Date de publication",
+  category: "Catégorie",
+  title: "Titre",
+  content: "Contenu",
+  excerpt: "Extrait",
+  coverImage: "Image de couverture",
+  language: "Langue",
+  
+  // Polls
+  vote: "Voter",
+  voting: "Vote en cours...",
+  thankYou: "Merci",
+  voteRecorded: "Votre vote a été enregistré",
+  voteFailed: "Le vote a échoué",
+  currentResults: "Résultats Actuels",
+  basedOnVotes: "Basé sur {{count}} participants",
+  noPollsActive: "Aucun sondage actif pour le moment",
+  
+  // Admin
+  adminTitle: "Administration Nouvèl Ayiti",
+  dashboard: "Tableau de Bord",
+  articlesManagement: "Gestion des Articles",
+  pollsManagement: "Gestion des Sondages",
+  videosManagement: "Gestion des Vidéos",
+  createNewArticle: "Créer un Nouvel Article",
+  editArticle: "Modifier l'Article",
+  createNewPoll: "Créer un Nouveau Sondage",
+  editPoll: "Modifier le Sondage",
+  createNewVideo: "Créer une Nouvelle Vidéo",
+  editVideo: "Modifier la Vidéo",
+  activeStatus: "Statut actif",
+  active: "Actif",
+  inactive: "Inactif",
+  adminWelcome: "Bienvenue dans le tableau de bord d'administration de Nouvèl Ayiti",
+  adminInstructions: "Utilisez le menu à gauche pour naviguer entre les différentes sections",
+  
+  // Stats
+  articleStats: "Statistiques des Articles",
+  pollStats: "Statistiques des Sondages",
+  videoStats: "Statistiques des Vidéos",
+  totalArticles: "Total des Articles",
+  totalPolls: "Total des Sondages",
+  totalVideos: "Total des Vidéos",
+  
+  // Empty states and errors
+  noArticlesFound: "Aucun article disponible",
+  noVideosYet: "Aucune vidéo disponible",
+  noCategoryArticles: "Aucun article dans cette catégorie",
+  noStatsYet: "Aucune statistique disponible",
+  noCategoryStats: "Aucune catégorie populaire à afficher",
+  articleNotFound: "Article non trouvé",
+  articleMayBeRemoved: "L'article a peut-être été supprimé ou n'a jamais existé",
+  checkBackLater: "Veuillez revenir plus tard pour du nouveau contenu",
+  moreArticlesSoon: "Plus d'articles à venir bientôt",
+  checkBackForUpdates: "Veuillez revenir plus tard pour les mises à jour",
+  checkOtherCategories: "Vous pourriez aussi essayer d'autres catégories",
+  goBack: "Retour",
+  backToHome: "Retour à la page d'accueil",
+  videosComingSoon: "Les vidéos arrivent bientôt",
+  noMoreArticles: "Pas plus d'articles à afficher",
+  
+  // Footer
+  footerDescription: "Une plateforme d'information axée sur Haïti. Nous fournissons des nouvelles immédiates, objectives et complètes sur l'actualité locale et mondiale.",
+  languages: "Langues",
+  information: "Information",
+  contactUs: "Contactez-nous",
+  team: "L'équipe",
+  advertising: "Publicité",
+  privacy: "Confidentialité",
+  terms: "Conditions d'Utilisation",
+  contact: "Contact",
+  allRightsReserved: "Tous droits réservés.",
+
+  // Browse
+  browsingCategory: "Vous regardez les articles dans la catégorie {{category}}",
+};
+
+export default translations;
