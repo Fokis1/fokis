@@ -279,6 +279,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Categories management
+  app.get("/api/admin/categories", async (req, res) => {
+    try {
+      const language = req.query.language as string || "ht";
+      const categories = await storage.getAllCategories(language);
+      res.json(categories);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching categories" });
+    }
+  });
+
+  app.post("/api/admin/categories", async (req, res) => {
+    try {
+      const validationResult = insertCategorySchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({ message: "Invalid category data", errors: validationResult.error.errors });
+      }
+      
+      const category = await storage.createCategory(req.body);
+      res.status(201).json(category);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating category" });
+    }
+  });
+
+  app.post("/api/admin/subcategories", async (req, res) => {
+    try {
+      const validationResult = insertSubcategorySchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({ message: "Invalid subcategory data", errors: validationResult.error.errors });
+      }
+      
+      const subcategory = await storage.createSubcategory(req.body);
+      res.status(201).json(subcategory);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating subcategory" });
+    }
+  });
+
+  app.delete("/api/admin/categories/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid ID" });
+      }
+      
+      const success = await storage.deleteCategory(id);
+      if (!success) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+      
+      res.sendStatus(204);
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting category" });
+    }
+  });
+
+  app.delete("/api/admin/subcategories/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid ID" });
+      }
+      
+      const success = await storage.deleteSubcategory(id);
+      if (!success) {
+        return res.status(404).json({ message: "Subcategory not found" });
+      }
+      
+      res.sendStatus(204);
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting subcategory" });
+    }
+  });
+
   app.delete("/api/admin/videos/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);

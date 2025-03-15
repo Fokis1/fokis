@@ -74,3 +74,29 @@ export type InsertVideo = z.infer<typeof insertVideoSchema>;
 export type Video = typeof videos.$inferSelect;
 
 export type Vote = z.infer<typeof voteSchema>;
+
+// Categories tables
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  label: text("label").notNull(),
+  language: text("language").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const subcategories = pgTable("subcategories", {
+  id: serial("id").primaryKey(),
+  categoryId: integer("category_id").references(() => categories.id),
+  name: text("name").notNull(),
+  label: text("label").notNull(),
+  language: text("language").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertCategorySchema = createInsertSchema(categories).omit({ id: true, createdAt: true });
+export const insertSubcategorySchema = createInsertSchema(subcategories).omit({ id: true, createdAt: true });
+
+export type InsertCategory = z.infer<typeof insertCategorySchema>;
+export type Category = typeof categories.$inferSelect;
+export type InsertSubcategory = z.infer<typeof insertSubcategorySchema>;
+export type Subcategory = typeof subcategories.$inferSelect;
