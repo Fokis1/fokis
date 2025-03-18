@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import {
   useQuery,
   useMutation,
@@ -17,16 +17,18 @@ type AuthContextType = {
   loginMutation: UseMutationResult<AuthUser, Error, LoginData>;
   logoutMutation: UseMutationResult<void, Error, void>;
   registerMutation: UseMutationResult<AuthUser, Error, RegisterData>;
+  signInWithGoogle: () => Promise<void>; // Ajoute fonksyon pou Google SignIn
 };
 
 type LoginData = {
-  username: string;
+  email: string;
   password: string;
 };
 
 type RegisterData = {
-  username: string;
+  email: string;
   password: string;
+  confirmPassword: string;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -42,16 +44,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
+  // Mutation pou konekte ak email/password
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
-      const res = await apiRequest("POST", "/api/login", credentials);
+      const res = await apiRequest("POST", "/api/auth/login", credentials);
       return await res.json();
     },
     onSuccess: (user: AuthUser) => {
       queryClient.setQueryData(["/api/user"], user);
       toast({
         title: "Login successful",
-        description: `Welcome back, ${user.username}!`,
+        description: `Welcome back, ${user.email}!`,
       });
     },
     onError: (error: Error) => {
@@ -63,16 +66,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Mutation pou enskri ak email/password
   const registerMutation = useMutation({
     mutationFn: async (credentials: RegisterData) => {
-      const res = await apiRequest("POST", "/api/register", credentials);
+      const res = await apiRequest("POST", "/api/auth/register", credentials);
       return await res.json();
     },
     onSuccess: (user: AuthUser) => {
       queryClient.setQueryData(["/api/user"], user);
       toast({
         title: "Registration successful",
-        description: `Welcome, ${user.username}!`,
+        description: `Welcome, ${user.email}!`,
       });
     },
     onError: (error: Error) => {
@@ -84,9 +88,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Mutation pou dekonekte
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("POST", "/api/logout");
+      await apiRequest("POST", "/api/auth/logout");
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/user"], null);
@@ -103,6 +108,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Fonksyon pou konekte ak Google
+  const signInWithGoogle = async () => {
+    try {
+      const res = await apiRequest("POST", "/api/auth/google");
+      if (!res.ok) {
+        throw new Error("Failed to sign in with Google");
+      }
+      const user = await res.json();
+      queryClient.setQueryData(["/api/user"], user);
+      toast({
+        title: "Google Sign-In successful",
+        description: `Welcome, ${user.email}!`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Google Sign-In failed",
+        description: error.message || "An error occurred while signing in with Google.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -112,6 +139,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loginMutation,
         logoutMutation,
         registerMutation,
+        signInWithGoogle, // Ajoute fonksyon an nan kontèks la
       }}
     >
       {children}

@@ -1,3 +1,4 @@
+import React from "react";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -13,7 +14,7 @@ import BlogPage from "@/pages/blog-page";
 import AuthPage from "@/pages/auth-page";
 import NotFound from "@/pages/not-found";
 
-// Admin Pages
+// Pages Admin
 import AdminPage from "@/pages/admin/admin-page";
 import ArticlesManagement from "@/pages/admin/articles-management";
 import CreateArticle from "@/pages/admin/create-article";
@@ -23,7 +24,7 @@ import PollsManagement from "@/pages/admin/polls-management";
 function Router() {
   return (
     <Switch>
-      {/* Public Routes */}
+      {/* Routes Publiques */}
       <Route path="/" component={HomePage} />
       <Route path="/article/:id" component={ArticlePage} />
       <Route path="/category/:category" component={CategoryPage} />
@@ -31,7 +32,7 @@ function Router() {
       <Route path="/blog" component={BlogPage} />
       <Route path="/auth" component={AuthPage} />
       
-      {/* Admin Routes - completely isolated from main site navigation */}
+      {/* Routes Admin - complètement isolées de la navigation principale */}
       <Route path="/admin">
         <ProtectedRoute adminOnly path="/admin" component={AdminPage} />
       </Route>
@@ -48,13 +49,13 @@ function Router() {
         <ProtectedRoute adminOnly path="/admin/polls" component={PollsManagement} />
       </Route>
       
-      {/* Fallback 404 */}
+      {/* Route de secours 404 */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-function App() {
+const App: FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>

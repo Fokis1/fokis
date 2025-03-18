@@ -1,162 +1,173 @@
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
-import { Express } from "express";
+import { getAuth, signInWithRedirect, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, getRedirectResult } from "firebase/auth";
 import session from "express-session";
-import { scrypt, randomBytes, timingSafeEqual } from "crypto";
-import { promisify } from "util";
-import { storage } from "./storage";
-import type { User as UserSchema } from "@shared/schema";
-import { z } from "zod";
+import createMemoryStore from "memorystore";
+import express, { Request, Response, NextFunction } from "express";
+import { auth, googleProvider } from "./firebase.config"; // Inpòte Firebase Auth ak Google Provider
 
-declare global {
-  namespace Express {
-    interface User extends UserSchema {}
+const MemoryStore = createMemoryStore(session);
+
+// Ekstann tip SessionData pou ajoute atribi userId
+declare module "express-session" {
+  interface SessionData {
+    userId?: string; // Ajoute atribi userId nan sesyon an
   }
 }
 
-const scryptAsync = promisify(scrypt);
-
-// Password hashing function
-async function hashPassword(password: string) {
-  const salt = randomBytes(16).toString("hex");
-  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
-  return `${buf.toString("hex")}.${salt}`;
-}
-
-// Password comparison function
-async function comparePasswords(supplied: string, stored: string) {
-  // For development testing only - use direct comparison
-  // In a real app, we'd use the hashing method below
-  return supplied === stored;
-  
-  // Commented out proper hashing for now
-  // const [hashed, salt] = stored.split(".");
-  // const hashedBuf = Buffer.from(hashed, "hex");
-  // const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-  // return timingSafeEqual(hashedBuf, suppliedBuf);
-}
-
-export function setupAuth(app: Express) {
-  // Configure session
+// Konfigirasyon sesyon
+export function setupAuth(app: express.Express) {
   const sessionSettings: session.SessionOptions = {
-    secret: process.env.SESSION_SECRET || "nouvel-ayiti-secret",
+    secret: process.env.SESSION_SECRET || "nouvel-ayiti-secret", // Sekrè pou sesyon an
     resave: false,
     saveUninitialized: false,
-    store: storage.sessionStore,
+    store: new MemoryStore({
+      checkPeriod: 86400000, // Netwaye sesyon ki ekspire chak 24 èdtan
+    }),
     cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
-    }
+      maxAge: 7 * 24 * 60 * 60 * 1000, // Sesyon an dure 1 semèn
+      secure: process.env.NODE_ENV === "production", // Cookie secure nan pwodiksyon
+      httpOnly: true, // Cookie pa aksesib nan JavaScript
+    },
   };
 
-  app.set("trust proxy", 1);
-  app.use(session(sessionSettings));
-  app.use(passport.initialize());
-  app.use(passport.session());
+  app.set("trust proxy", 1); // Sipoze ke w dèyè yon proxy (pa egzanp, Heroku)
+  app.use(session(sessionSettings)); // Enstale middleware sesyon an
 
-  // Configure passport local strategy
-  passport.use(
-    new LocalStrategy(async (username, password, done) => {
-      try {
-        const user = await storage.getUserByUsername(username);
-        if (!user || !(await comparePasswords(password, user.password))) {
-          return done(null, false);
-        } else {
-          return done(null, user);
-        }
-      } catch (err) {
-        return done(err);
-      }
-    }),
-  );
-
-  passport.serializeUser((user, done) => done(null, user.id));
-  passport.deserializeUser(async (id: number, done) => {
+  // === GOOGLE SIGN-IN ===
+  app.post("/api/auth/google", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await storage.getUser(id);
-      done(null, user);
-    } catch (err) {
-      done(err);
-    }
-  });
-
-  // Registration route
-  app.post("/api/register", async (req, res, next) => {
-    try {
-      // Validate request body
-      const registerSchema = z.object({
-        username: z.string().min(3),
-        password: z.string().min(6)
-      });
-      
-      const validationResult = registerSchema.safeParse(req.body);
-      if (!validationResult.success) {
-        return res.status(400).json({ message: "Validation failed", errors: validationResult.error.errors });
-      }
-      
-      // Check if username exists
-      const existingUser = await storage.getUserByUsername(req.body.username);
-      if (existingUser) {
-        return res.status(400).json({ message: "Username already exists" });
-      }
-
-      // Create user with hashed password
-      const hashedPassword = await hashPassword(req.body.password);
-      const user = await storage.createUser({
-        username: req.body.username,
-        password: hashedPassword,
-        isAdmin: false
-      });
-
-      // Log the user in
-      req.login(user, (err) => {
-        if (err) return next(err);
-        return res.status(201).json({ id: user.id, username: user.username, isAdmin: user.isAdmin });
-      });
+      const provider = new GoogleAuthProvider();
+      await signInWithRedirect(auth, provider); // Konekte ak Google Sign-In
+      res.status(200).json({ message: "Redirecting to Google sign-in." });
     } catch (error) {
-      next(error);
+      next(error); // Pase erè a nan middleware erè a
     }
   });
 
-  // Login route
-  app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
-      if (err) return next(err);
-      if (!user) return res.status(401).json({ message: "Invalid credentials" });
-      
-      req.login(user, (err) => {
-        if (err) return next(err);
-        return res.status(200).json({ id: user.id, username: user.username, isAdmin: user.isAdmin });
-      });
-    })(req, res, next);
+  app.get("/api/auth/google/callback", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = await getRedirectResult(auth);
+      if (result) {
+        const user = result.user;
+
+        // Stòk ID itilizatè nan sesyon an
+        req.session.userId = user.uid;
+
+        // Renmen yon repons JSON ak enfòmasyon itilizatè a
+        res.status(200).json({
+          id: user.uid,
+          email: user.email,
+          name: user.displayName,
+          photoURL: user.photoURL,
+        });
+      } else {
+        res.status(400).json({ message: "No redirect result found." });
+      }
+    } catch (error) {
+      next(error); // Pase erè a nan middleware erè a
+    }
   });
 
-  // Logout route
-  app.post("/api/logout", (req, res, next) => {
-    req.logout((err) => {
-      if (err) return next(err);
-      res.sendStatus(200);
+  // === REGISTER WITH EMAIL/PASSWORD ===
+  app.post("/api/auth/register", async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+
+    // Verifye si email ak modpas yo egziste
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required." });
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Stòk ID itilizatè nan sesyon an
+      req.session.userId = user.uid;
+
+      // Renmen yon repons JSON ak enfòmasyon itilizatè a
+      res.status(201).json({
+        id: user.uid,
+        email: user.email,
+      });
+    } catch (error: any) {
+      if (error.code === "auth/email-already-in-use") {
+        return res.status(400).json({ message: "Email already in use." });
+      }
+      next(error); // Pase erè a nan middleware erè a
+    }
+  });
+
+  // === LOGIN WITH EMAIL/PASSWORD ===
+  app.post("/api/auth/login", async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+
+    // Verifye si email ak modpas yo egziste
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required." });
+    }
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Stòk ID itilizatè nan sesyon an
+      req.session.userId = user.uid;
+
+      // Renmen yon repons JSON ak enfòmasyon itilizatè a
+      res.status(200).json({
+        id: user.uid,
+        email: user.email,
+      });
+    } catch (error: any) {
+      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+        return res.status(401).json({ message: "Invalid email or password." });
+      }
+      next(error); // Pase erè a nan middleware erè a
+    }
+  });
+
+  // === LOGOUT ===
+  app.post("/api/auth/logout", (req: Request, res: Response, next: NextFunction) => {
+    req.session.destroy((err) => {
+      if (err) return next(err); // Pase erè a nan middleware erè a
+
+      // Dekonekte itilizatè a nan Firebase
+      signOut(auth)
+        .then(() => res.sendStatus(200)) // Renmen yon repons 200 OK
+        .catch(next); // Pase erè a nan middleware erè a
     });
   });
 
-  // Get current user route
-  app.get("/api/user", (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    const user = req.user as UserSchema;
-    res.json({ id: user.id, username: user.username, isAdmin: user.isAdmin });
+  // === GET CURRENT USER ===
+  app.get("/api/auth/user", (req: Request, res: Response) => {
+    const userId = req.session.userId;
+
+    // Verifye si itilizatè a konekte
+    if (!userId) {
+      return res.status(401).json({ message: "Not authenticated." });
+    }
+
+    // Renmen enfòmasyon itilizatè a
+    const user = auth.currentUser;
+    if (user) {
+      res.json({
+        id: user.uid,
+        email: user.email,
+        name: user.displayName,
+        photoURL: user.photoURL,
+      });
+    } else {
+      res.status(401).json({ message: "User not found." });
+    }
   });
 
-  // Admin check middleware
-  // Temporarily disabled for testing
-  /*app.use("/api/admin/*", (req, res, next) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Unauthorized" });
+  // === LISTEN FOR AUTH STATE CHANGES ===
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("User signed in:", user.uid);
+    } else {
+      console.log("User signed out.");
     }
-    
-    const user = req.user as UserSchema;
-    if (!user.isAdmin) {
-      return res.status(403).json({ message: "Forbidden: Admin access required" });
-    }
-    
-    next();
-  });*/
+  });
 }
+
+export { app as authApp };

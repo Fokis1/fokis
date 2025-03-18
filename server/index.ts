@@ -1,11 +1,34 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import cors from "cors"; // Enpòte CORS middleware
+import { setupAuth } from "./auth"; // Enpòte setupAuth pou ajoute wout otantifikasyon yo
+import winston from "winston";
+
+// Configurez winston pour enregistrer les logs
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+    ),
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'server.log' })
+    ]
+});
+
+// Exemple de log
+logger.info('Serveur démarré...');
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
+// === MIDDLEWARE ===
+app.use(cors()); // Pèmèt demann ki soti nan lòt domèn
+app.use(express.json()); // Pèmèt analize kò JSON nan demann yo
+app.use(express.urlencoded({ extended: false })); // Pèmèt analize kò URL-encoded
+
+// Middleware pou log demann yo
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -36,35 +59,34 @@ app.use((req, res, next) => {
   next();
 });
 
+// === DEMARE SÈVÈ A ===
 (async () => {
-  const server = await registerRoutes(app);
+  try {
+    const server = await registerRoutes(app); // Enrejistre tout wout yo
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    // Middleware pou jere erè
+    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
 
-    res.status(status).json({ message });
-    throw err;
-  });
+      log(`Error: ${message}`);
+      res.status(status).json({ message }); // Renmen yon repons JSON ak mesaj erè a
+    });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
+    // Configure Vite oswa static serving
+    if (app.get("env") === "development") {
+      await setupVite(app, server); // Sèvi ak Vite nan devlopman
+    } else {
+      serveStatic(app); // Sèvi ak fichye statik nan pwodiksyon
+    }
+
+    // Defini pò
+    const port = 5000;
+    server.listen(port, "127.0.0.1", () => {
+      log(`Server is running on http://127.0.0.1:${port}`);
+    });
+  } catch (error) {
+    log("Error starting server:", error);
+    process.exit(1);
   }
-
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
 })();

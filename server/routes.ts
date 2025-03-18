@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
-import { insertArticleSchema, insertPollSchema, insertVideoSchema, voteSchema } from "@shared/schema";
+import { insertArticleSchema, insertPollSchema, insertVideoSchema, insertCategorySchema, insertSubcategorySchema, voteSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -25,10 +25,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get("/api/articles/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const article = await storage.getArticleById(id);
       if (!article) {
@@ -57,10 +54,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get("/api/polls/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const poll = await storage.getPollById(id);
       if (!poll) {
@@ -146,10 +140,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.put("/api/admin/articles/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const validationResult = insertArticleSchema.partial().safeParse(req.body);
       if (!validationResult.success) {
@@ -169,10 +160,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.delete("/api/admin/articles/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const success = await storage.deleteArticle(id);
       if (!success) {
@@ -202,10 +190,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.put("/api/admin/polls/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const validationResult = insertPollSchema.partial().safeParse(req.body);
       if (!validationResult.success) {
@@ -225,10 +210,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.delete("/api/admin/polls/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const success = await storage.deletePoll(id);
       if (!success) {
@@ -258,10 +240,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.put("/api/admin/videos/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const validationResult = insertVideoSchema.partial().safeParse(req.body);
       if (!validationResult.success) {
@@ -320,10 +299,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete("/api/admin/categories/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const success = await storage.deleteCategory(id);
       if (!success) {
@@ -338,10 +314,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete("/api/admin/subcategories/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const success = await storage.deleteSubcategory(id);
       if (!success) {
@@ -356,10 +329,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete("/api/admin/videos/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+      const id = req.params.id;
       
       const success = await storage.deleteVideo(id);
       if (!success) {
